@@ -1,0 +1,6 @@
+1;Mercedes;B200;2007;254,5;Gray;Air Conditioner
+2;Mercedes;B200;2007;254,5;Gray;Air Conditioner
+3;Mercedes;B200;2007;246,6;Gray;Air Conditioner
+4;Mercedes;B200;2007;254,5;Gray;Air Conditioner
+5;Mercedes;B200;2007;254,5;Gray;Air Conditioner
+6;Mercedes;B200;2007;245,6;Gray;Air Conditioner
