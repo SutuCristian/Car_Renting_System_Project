@@ -150,5 +150,28 @@ namespace ClientDataStorage
             return clients;
         }
 
+        public bool DeleteClients(int idClient)
+        {
+            List<Clients> clients = GetClients();
+            bool successfullyDeleted = false;
+
+            using (StreamWriter streamWriterTextFile = new StreamWriter(fileName, false))
+            {
+                foreach (Clients client in clients)
+                {
+                    if (client.IdClient != idClient)
+                    {
+                        streamWriterTextFile.WriteLine(client.ConvertToString_ForFile());
+                    }
+                    else
+                    {
+                        successfullyDeleted = true;
+                    }
+                }
+            }
+
+            return successfullyDeleted;
+        }
+
     }
 }

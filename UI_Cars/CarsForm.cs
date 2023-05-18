@@ -21,6 +21,7 @@ namespace UI_Cars
 {
     public partial class CarsForm : Form
     {
+        
         IDataStorageCars adminCars;
 
         ArrayList selectedOptions = new ArrayList();
@@ -142,13 +143,50 @@ namespace UI_Cars
             }
 
             Cars selectedCar = (Cars)dataGridCars.SelectedRows[0].DataBoundItem;
-            adminCars.DeleteCar(selectedCar.IdCar);
+            adminCars.DeleteCars(selectedCar.IdCar);
 
             // Refresh the DataGridView to show the updated list of cars
             List<Cars> cars = adminCars.GetCars();
             DisplayCarsInControlDataGridView(cars);
 
             MessageBox.Show("Car deleted successfully.");
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            List<Cars> cars = adminCars.GetCars();
+
+            // Sort the cars based on IdCar in ascending order
+            cars.Sort((car1, car2) => car1.IdCar.CompareTo(car2.IdCar));
+
+            // Update the IdCar values sequentially starting from 1
+            for (int i = 0; i < cars.Count; i++)
+            {
+                cars[i].IdCar = i + 1;
+            }
+
+            // Save the updated list of cars to the file
+            SaveCarsToFile(cars);
+
+            // Refresh the DataGridView to show the updated list of cars
+            DisplayCarsInControlDataGridView(cars);
+
+            MessageBox.Show("Cars refreshed successfully.");
+        }
+
+        private void SaveCarsToFile(List<Cars> cars)
+        {
+            string fileNameCar = ConfigurationManager.AppSettings["FileNameCar"];
+            string CarSolutionFileLocation = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string CarCompleteFileLocation = Path.Combine(CarSolutionFileLocation, fileNameCar);
+
+            using (StreamWriter streamWriterTextFile = new StreamWriter(CarCompleteFileLocation, false))
+            {
+                foreach (Cars car in cars)
+                {
+                    streamWriterTextFile.WriteLine(car.ConvertToString_ForFile());
+                }
+            }
         }
     }
 }

@@ -22,22 +22,24 @@ namespace UI_Clients
     {
         IDataStorageClients adminClients;
 
-             private Label lblFirstName;
-             private Label[] lblsFirstName;
+        private Label lblFirstName;
+        private Label[] lblsFirstName;
 
-             private Label lblLastName;
-             private Label[] lblsLastName;
+        private Label lblLastName;
+        private Label[] lblsLastName;
 
-             private Label lblEmail;
-             private Label[] lblsEmail;
+        private Label lblEmail;
+        private Label[] lblsEmail;
 
-             private Label lblPhone_Number;
-             private Label[] lblsPhone_Number;
+        private Label lblPhone_Number;
+        private Label[] lblsPhone_Number;
 
         private const int WIDTH_CONTROL = 100;
         private const int DIMENSION_PAS_Y = 30;
         private const int DIMENSION_PAS_X = 120;
         private const int OFFSET_X = 600;
+
+        private int nextClientId;
 
         public ClientsForm()
         {
@@ -45,6 +47,9 @@ namespace UI_Clients
             string ClientsSolutionFileLocation = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string ClientsCompleteFileLocation = Path.Combine(ClientsSolutionFileLocation, fileName);
             adminClients = FactoryStorageClients.GetAdminStorage();
+
+            // Read the NextClientId from the file and set it
+            nextClientId = ReadNextClientIdFromFile(ClientsCompleteFileLocation);
 
             InitializeComponent();
         }
@@ -89,10 +94,6 @@ namespace UI_Clients
             lblPhone_Number.ForeColor = Color.DarkGreen;
             this.Controls.Add(lblPhone_Number);
 
-            //Clients[] clients = adminClients.GetClients(out int nrClients);
-
-            //ArrayList clients = adminClients.GetClients();
-
             int nrClients = clients.Count;
             lblsFirstName = new Label[nrClients];
             lblsLastName = new Label[nrClients];
@@ -102,7 +103,6 @@ namespace UI_Clients
             int i = 0;
             foreach (Clients client in clients)
             {
-
                 //add Label for Client's first name
                 lblsFirstName[i] = new Label();
                 lblsFirstName[i].Width = WIDTH_CONTROL;
@@ -142,20 +142,13 @@ namespace UI_Clients
         private void ClientsControlReset()
         {
             txtFirstName.Text = txtLastName.Text = txtEmail.Text = txtPhoneNumber.Text = string.Empty;
-
         }
 
         private void btnAddClient_Click(object sender, EventArgs e)
         {
-            //if(!InvalidClientData())
-            //{
-
-            //}
-
-            Clients c = new Clients(0, txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtPhoneNumber.Text); ;
+            Clients c = new Clients(0, txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtPhoneNumber.Text);
 
             adminClients.AddClient(c);
-
 
             //reset controls to add a new client
             ClientsControlReset();
@@ -164,17 +157,97 @@ namespace UI_Clients
         private void btnDisplayClient_Click(object sender, EventArgs e)
         {
             List<Clients> clients = adminClients.GetClients();
-            DisplayClients(clients);
             DisplayClientsInControlDataGridView(clients);
         }
 
         private void DisplayClientsInControlDataGridView(List<Clients> clients)
         {
             dataGridClients.DataSource = null;
-
             dataGridClients.DataSource = clients;
-
         }
 
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            List<Clients> clients = adminClients.GetClients();
+
+            // Sort the clients based on IdClient in ascending order
+            clients.Sort((client1, client2) => client1.IdClient.CompareTo(client2.IdClient));
+
+            // Update the IdClient values sequentially starting from 1
+            int nextClientId = 1;
+            foreach (Clients client in clients)
+            {
+                client.IdClient = nextClientId;
+                nextClientId++;
+            }
+
+            // Save the updated list of clients to the file
+            SaveClientsToFile(clients);
+
+            // Refresh the labels to show the updated list of clients
+            DisplayClientsInControlDataGridView(clients);
+
+            MessageBox.Show("Clients refreshed successfully.");
+        }
+
+        private void SaveClientsToFile(List<Clients> clients)
+        {
+            string fileName = ConfigurationManager.AppSettings["FileName"];
+            string ClientsSolutionFileLocation = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string ClientsCompleteFileLocation = Path.Combine(ClientsSolutionFileLocation, fileName);
+
+            using (StreamWriter streamWriterTextFile = new StreamWriter(ClientsCompleteFileLocation, false))
+            {
+                foreach (Clients client in clients)
+                {
+                    streamWriterTextFile.WriteLine(client.ConvertToString_ForFile());
+                }
+
+                // Update the file with the new IDs
+                streamWriterTextFile.WriteLine($"NextClientId={clients.Count + 1}");
+            }
+        }
+
+        private void btnDeleteClient_Click(object sender, EventArgs e)
+        {
+            if (dataGridClients.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a row to delete.");
+                return;
+            }
+
+            Clients selectedClient = (Clients)dataGridClients.SelectedRows[0].DataBoundItem;
+            adminClients.DeleteClients(selectedClient.IdClient);
+
+            // Refresh the DataGridView to show the updated list of clients
+            List<Clients> clients = adminClients.GetClients();
+            DisplayClientsInControlDataGridView(clients);
+
+            MessageBox.Show("Client deleted successfully.");
+        }
+
+        private int ReadNextClientIdFromFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                using (StreamReader streamReader = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        if (line.StartsWith("NextClientId="))
+                        {
+                            string nextClientIdString = line.Substring("NextClientId=".Length);
+                            if (int.TryParse(nextClientIdString, out int nextClientId))
+                            {
+                                return nextClientId;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return 1; // Default value if the file doesn't exist or the parsing fails
+        }
     }
 }

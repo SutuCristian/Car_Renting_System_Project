@@ -78,19 +78,68 @@ namespace ClientDataStorage
 
         public Clients GetClient(int idClient)
         {
-            throw new Exception("GetClient by Id not implemented");
+            List<Clients> clients = GetClients();
+            return clients.FirstOrDefault(cli => cli.IdClient == idClient);
         }
 
         public Clients GetClient(string first_name, string last_name)
         {
-            throw new Exception("GetClient not implemented");
+            List<Clients> clients = GetClients();
+            return clients.FirstOrDefault(cli => cli.First_name == first_name && cli.Last_name == last_name);
         }
 
         public bool UpdateClient(Clients cli)
         {
-            throw new Exception(" UpdateClient not implemented");
+            List<Clients> clients = GetClients();
+            int index = clients.FindIndex(c => c.IdClient == cli.IdClient);
+
+            if (index != -1)
+            {
+                clients[index] = cli;
+                SaveClientsToFile(clients);
+                return true;
+            }
+
+            return false;
         }
 
+        public bool DeleteClients(int idClient)
+        {
+            List<Clients> clients = GetClients();
+            int index = clients.FindIndex(c => c.IdClient == idClient);
+
+            if (index != -1)
+            {
+                clients.RemoveAt(index);
+                SaveClientsToFile(clients);
+                return true;
+            }
+
+            return false;
+        }
+        private void SaveClientsToFile(List<Clients> clients)
+        {
+            try
+            {
+                BinaryFormatter b_cli = new BinaryFormatter();
+
+                using (Stream cliBinFile = File.Open(FileName, FileMode.Create))
+                {
+                    foreach (Clients cli in clients)
+                    {
+                        b_cli.Serialize(cliBinFile, cli);
+                    }
+                }
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
+        }
         private int GetIdClient()
         {
             int IdClient = FIRST_CLIENT_ID;

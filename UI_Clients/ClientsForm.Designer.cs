@@ -46,6 +46,7 @@
             this.txtPhoneNumber = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.dataGridClients = new System.Windows.Forms.DataGridView();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridClients)).BeginInit();
             this.SuspendLayout();
@@ -153,7 +154,7 @@
             this.btnBackClientMenu.BackColor = System.Drawing.Color.Red;
             this.btnBackClientMenu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBackClientMenu.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.btnBackClientMenu.Location = new System.Drawing.Point(143, 421);
+            this.btnBackClientMenu.Location = new System.Drawing.Point(143, 540);
             this.btnBackClientMenu.Name = "btnBackClientMenu";
             this.btnBackClientMenu.Size = new System.Drawing.Size(92, 41);
             this.btnBackClientMenu.TabIndex = 7;
@@ -171,6 +172,7 @@
             this.btnDeleteClient.TabIndex = 8;
             this.btnDeleteClient.Text = "Delete";
             this.btnDeleteClient.UseVisualStyleBackColor = false;
+            this.btnDeleteClient.Click += new System.EventHandler(this.btnDeleteClient_Click);
             // 
             // txtFirstName
             // 
@@ -219,11 +221,25 @@
             this.dataGridClients.Size = new System.Drawing.Size(700, 533);
             this.dataGridClients.TabIndex = 14;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.Red;
+            this.btnRefresh.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnRefresh.Location = new System.Drawing.Point(143, 421);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(92, 41);
+            this.btnRefresh.TabIndex = 24;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // ClientsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1261, 791);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dataGridClients);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtPhoneNumber);
@@ -269,6 +285,7 @@
         private System.Windows.Forms.TextBox txtPhoneNumber;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridClients;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 

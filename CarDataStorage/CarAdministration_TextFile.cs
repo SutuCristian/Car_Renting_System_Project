@@ -1,7 +1,6 @@
 ﻿using CarLibrary;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +9,6 @@ namespace CarDataStorage
 {
     public class CarAdministration_TextFile : IDataStorageCars
     {
-        private const int MaxCars = 50;
         private const int FIRST_CAR_ID = 1;
         private const int INCREMENT_CAR = 1;
 
@@ -35,7 +33,7 @@ namespace CarDataStorage
 
         public List<Cars> GetCars()
         {
-            ArrayList cars = new ArrayList();
+            List<Cars> cars = new List<Cars>();
 
             using (StreamReader streamReader = new StreamReader(fileNameCar))
             {
@@ -48,8 +46,7 @@ namespace CarDataStorage
                 }
             }
 
-            return cars.Cast<Cars>().ToList();
-
+            return cars;
         }
 
         public Cars GetCar(string brand, string model)
@@ -67,49 +64,10 @@ namespace CarDataStorage
             }
 
             return null;
-
-        }
-
-        private int GetCar()
-        {
-            int IdCar = FIRST_CAR_ID;
-
-            using (StreamReader streamReader = new StreamReader(fileNameCar))
-            {
-                string fileLine;
-
-                while ((fileLine = streamReader.ReadLine()) != null)
-                {
-                    Cars car = new Cars(fileLine);
-                    IdCar = car.IdCar + INCREMENT_CAR;
-                }
-            }
-
-            return IdCar;
-
-        }
-
-        public Cars[] GetCars(out int nrCars)
-        {
-            Cars[] cars = new Cars[MaxCars];
-
-            using (StreamReader streamReader = new StreamReader(fileNameCar))
-            {
-                string fileLine;
-                nrCars = 0;
-
-                while ((fileLine = streamReader.ReadLine()) != null)
-                {
-                    cars[nrCars++] = new Cars(fileLine);
-                }
-            }
-
-            return cars;
         }
 
         public Cars GetCar(int idCar)
         {
-
             using (StreamReader streamReader = new StreamReader(fileNameCar))
             {
                 string fileLine;
@@ -121,8 +79,26 @@ namespace CarDataStorage
                         return car;
                 }
             }
-            return null;
 
+            return null;
+        }
+
+        private int GetIdCar()
+        {
+            int maxIdCar = FIRST_CAR_ID;
+
+            using (StreamReader streamReader = new StreamReader(fileNameCar))
+            {
+                string fileLine;
+
+                while ((fileLine = streamReader.ReadLine()) != null)
+                {
+                    Cars car = new Cars(fileLine);
+                    maxIdCar = Math.Max(maxIdCar, car.IdCar);
+                }
+            }
+
+            return maxIdCar + INCREMENT_CAR;
         }
 
         public bool UpdateCar(Cars updatedCar)
@@ -134,37 +110,42 @@ namespace CarDataStorage
             {
                 foreach (Cars car in cars)
                 {
-                    Cars writeInFileCar = car;
-
                     if (car.IdCar == updatedCar.IdCar)
                     {
-                        writeInFileCar = updatedCar;
+                        streamWriterTextFile.WriteLine(updatedCar.ConvertToString_ForFile());
+                        successfullyUpdated = true;
                     }
-                    streamWriterTextFile.WriteLine(writeInFileCar.ConvertToString_ForFile());
+                    else
+                    {
+                        streamWriterTextFile.WriteLine(car.ConvertToString_ForFile());
+                    }
                 }
-                successfullyUpdated = true;
             }
+
             return successfullyUpdated;
         }
 
-        private int GetIdCar()
+        public bool DeleteCars(int idCar)
         {
-            int IdCar = FIRST_CAR_ID;
+            List<Cars> cars = GetCars();
+            bool successfullyDeleted = false;
 
-            using (StreamReader streamReader = new StreamReader(fileNameCar))
+            using (StreamWriter streamWriterTextFile = new StreamWriter(fileNameCar, false))
             {
-                string fileLine;
-
-                while ((fileLine = streamReader.ReadLine()) != null)
+                foreach (Cars car in cars)
                 {
-                    Cars car = new Cars(fileLine);
-                    IdCar = car.IdCar + INCREMENT_CAR;
+                    if (car.IdCar != idCar)
+                    {
+                        streamWriterTextFile.WriteLine(car.ConvertToString_ForFile());
+                    }
+                    else
+                    {
+                        successfullyDeleted = true;
+                    }
                 }
-
             }
-            return IdCar;
 
+            return successfullyDeleted;
         }
-
     }
 }

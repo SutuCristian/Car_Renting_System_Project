@@ -65,6 +65,7 @@
             this.ckbCruiseControl = new System.Windows.Forms.CheckBox();
             this.ckbAutomaticTransmission = new System.Windows.Forms.CheckBox();
             this.ckbAirConditioner = new System.Windows.Forms.CheckBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCars)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -458,11 +459,25 @@
             this.ckbAirConditioner.UseVisualStyleBackColor = true;
             this.ckbAirConditioner.CheckedChanged += new System.EventHandler(this.ckbOptions_CheckedChanged);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.Red;
+            this.btnRefresh.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnRefresh.Location = new System.Drawing.Point(151, 650);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(96, 41);
+            this.btnRefresh.TabIndex = 23;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // CarsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1266, 790);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.dataGridCars);
@@ -535,6 +550,7 @@
         private System.Windows.Forms.CheckBox ckbCruiseControl;
         private System.Windows.Forms.CheckBox ckbAutomaticTransmission;
         private System.Windows.Forms.CheckBox ckbAirConditioner;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 

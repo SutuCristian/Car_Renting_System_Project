@@ -54,18 +54,18 @@ namespace CarDataStorage
             List<Cars> cars = new List<Cars>();
             try
             {
-                BinaryFormatter carr = new BinaryFormatter();
-
+                BinaryFormatter b_car = new BinaryFormatter();
                 using (Stream carBinFile = File.Open(FileName, FileMode.Open))
                 {
-
+                    int currentId = FIRST_CAR_ID;
                     while (carBinFile.Position < carBinFile.Length)
                     {
-                        cars.Add((Cars)carr.Deserialize(carBinFile));
+                        Cars car = (Cars)b_car.Deserialize(carBinFile);
+                        car.IdCar = currentId;
+                        cars.Add(car);
+                        currentId += INCREMENT_CAR;
                     }
-
                 }
-
             }
             catch (IOException eIO)
             {
@@ -80,17 +80,112 @@ namespace CarDataStorage
 
         public Cars GetCar(int idCar)
         {
-            throw new Exception("GetCar by Id not implemented");
+            try
+            {
+                List<Cars> cars = GetCars();
+                return cars.FirstOrDefault(car => car.IdCar == idCar);
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
         }
 
         public Cars GetCar(string make, string model)
         {
-            throw new Exception("GetCar not implemented");
+            try
+            {
+                List<Cars> cars = GetCars();
+                return cars.FirstOrDefault(car => car.Brand == make && car.Model == model);
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
         }
 
         public bool UpdateCar(Cars carr)
         {
-            throw new Exception(" UpdateClient not implemented");
+            try
+            {
+                List<Cars> cars = GetCars();
+                int index = cars.FindIndex(car => car.IdCar == carr.IdCar);
+
+                if (index != -1)
+                {
+                    cars[index] = carr;
+                    SaveCarsToFile(cars);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
+        }
+
+        public bool DeleteCars(int idCar)
+        {
+            try
+            {
+                List<Cars> cars = GetCars();
+                int index = cars.FindIndex(car => car.IdCar == idCar);
+
+                if (index != -1)
+                {
+                    cars.RemoveAt(index);
+                    SaveCarsToFile(cars);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
+        }
+
+        private void SaveCarsToFile(List<Cars> cars)
+        {
+            try
+            {
+                using (Stream carBinFile = File.Open(FileName, FileMode.Create))
+                {
+                    BinaryFormatter b_car = new BinaryFormatter();
+
+                    foreach (Cars car in cars)
+                    {
+                        b_car.Serialize(carBinFile, car);
+                    }
+                }
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
         }
 
         private int GetIdCar()

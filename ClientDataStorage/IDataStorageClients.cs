@@ -18,6 +18,8 @@ namespace ClientDataStorage
 
         Clients GetClient(int idClient);
 
+        bool DeleteClients(int idClient);
+
         bool UpdateClient(Clients cli);
     }
 }
