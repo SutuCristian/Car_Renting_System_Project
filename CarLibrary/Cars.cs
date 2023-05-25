@@ -84,7 +84,7 @@ namespace CarLibrary
             Color = (CarColor)Enum.Parse(typeof(CarColor), fileData[COLOR], true);
             Options = new ArrayList();
             Options.AddRange(fileData[OPTIONS].Split(SECONDARY_FILE_SEPARATOR));
-          
+
         }
 
         public string InfoCar()
@@ -138,4 +138,3 @@ namespace CarLibrary
     }
 
 }
-

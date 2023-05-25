@@ -85,7 +85,7 @@ namespace CarDataStorage
 
         private int GetIdCar()
         {
-            int maxIdCar = FIRST_CAR_ID;
+            int IdCar = FIRST_CAR_ID;
 
             using (StreamReader streamReader = new StreamReader(fileNameCar))
             {
@@ -94,11 +94,11 @@ namespace CarDataStorage
                 while ((fileLine = streamReader.ReadLine()) != null)
                 {
                     Cars car = new Cars(fileLine);
-                    maxIdCar = Math.Max(maxIdCar, car.IdCar);
+                    IdCar = car.IdCar + INCREMENT_CAR;
                 }
             }
 
-            return maxIdCar + INCREMENT_CAR;
+            return IdCar;
         }
 
         public bool UpdateCar(Cars updatedCar)
