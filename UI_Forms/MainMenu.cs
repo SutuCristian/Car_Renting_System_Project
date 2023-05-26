@@ -36,5 +36,18 @@ namespace UI_Forms
             clientsMenu.ShowDialog();
             this.Show();
         }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LoginForm loginMenu = new LoginForm();
+            loginMenu.ShowDialog();
+            this.Show();
+        }
+
+        private void MainMenu_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -30,13 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SigninForm));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.btnSignInUser = new System.Windows.Forms.Button();
+            this.btnBackClientMenu = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,17 +51,6 @@
             this.panel1.Size = new System.Drawing.Size(1181, 104);
             this.panel1.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 27F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label1.Location = new System.Drawing.Point(345, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(431, 41);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "CAR RENTING SYSTEM";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -71,6 +61,17 @@
             this.label2.Size = new System.Drawing.Size(123, 24);
             this.label2.TabIndex = 3;
             this.label2.Text = "SignIn Menu";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 27F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label1.Location = new System.Drawing.Point(345, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(431, 41);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "CAR RENTING SYSTEM";
             // 
             // label3
             // 
@@ -120,11 +121,25 @@
             this.btnSignInUser.Text = "Sign In";
             this.btnSignInUser.UseVisualStyleBackColor = false;
             // 
+            // btnBackClientMenu
+            // 
+            this.btnBackClientMenu.BackColor = System.Drawing.Color.Red;
+            this.btnBackClientMenu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBackClientMenu.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnBackClientMenu.Location = new System.Drawing.Point(446, 646);
+            this.btnBackClientMenu.Name = "btnBackClientMenu";
+            this.btnBackClientMenu.Size = new System.Drawing.Size(99, 41);
+            this.btnBackClientMenu.TabIndex = 10;
+            this.btnBackClientMenu.Text = "Back";
+            this.btnBackClientMenu.UseVisualStyleBackColor = false;
+            this.btnBackClientMenu.Click += new System.EventHandler(this.btnBackClientMenu_Click);
+            // 
             // SigninForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1173, 780);
+            this.Controls.Add(this.btnBackClientMenu);
             this.Controls.Add(this.btnSignInUser);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -151,6 +166,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button btnSignInUser;
+        private System.Windows.Forms.Button btnBackClientMenu;
     }
 }
 

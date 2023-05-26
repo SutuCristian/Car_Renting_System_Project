@@ -107,10 +107,13 @@
             // 
             // textBox2
             // 
+            this.textBox2.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.Location = new System.Drawing.Point(827, 284);
             this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(182, 20);
             this.textBox2.TabIndex = 6;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // btnLogIn
             // 
@@ -136,6 +139,7 @@
             this.btnSignIn.TabIndex = 8;
             this.btnSignIn.Text = "SignIn";
             this.btnSignIn.UseVisualStyleBackColor = false;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
             // 
             // pictureBox1
             // 
@@ -151,7 +155,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Snow;
-            this.ClientSize = new System.Drawing.Size(1259, 702);
+            this.ClientSize = new System.Drawing.Size(1277, 702);
             this.Controls.Add(this.btnSignIn);
             this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.textBox2);
