@@ -39,11 +39,15 @@ namespace UI_Forms
                 }
 
                 MessageBox.Show("Sign In successful!");
+
+                // Clear the input fields after successful sign in
+                textBox1.Text = string.Empty;
+                textBox2.Text = string.Empty;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
-            }
+            }  
         }
 
         private void btnBackClientMenu_Click(object sender, EventArgs e)

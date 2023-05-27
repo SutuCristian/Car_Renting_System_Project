@@ -40,12 +40,45 @@ namespace UI_Forms
 
         private void btnAddClient_Click(object sender, EventArgs e)
         {
-            Clients c = new Clients(0, txtFirstName.Text, txtLastName.Text, txtEmail.Text, txtPhoneNumber.Text);
+            string firstName = txtFirstName.Text;
+            string lastName = txtLastName.Text;
+            string email = txtEmail.Text;
+            string phoneNumber = txtPhoneNumber.Text;
+
+            // Validate input
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
+            {
+                MessageBox.Show("Please enter all client details.");
+                return;
+            }
+
+            // Validate email format
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Please enter a valid email address.");
+                return;
+            }
+
+            // Validate phone number length
+            if (phoneNumber.Length != 10)
+            {
+                MessageBox.Show("Please enter a 10-digit phone number.");
+                return;
+            }
+
+            Clients c = new Clients(0, firstName, lastName, email, phoneNumber);
 
             adminClients.AddClient(c);
 
-            //reset controls to add a new client
+            // Reset controls to add a new client
             ClientsControlReset();
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            // Use a regular expression pattern to validate the email format
+            string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
         }
 
         private void btnDisplayClient_Click(object sender, EventArgs e)
@@ -90,6 +123,11 @@ namespace UI_Forms
             MainMenu mainMenu = new MainMenu();
             mainMenu.ShowDialog();
             this.Show();
+        }
+
+        private void ClientsForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

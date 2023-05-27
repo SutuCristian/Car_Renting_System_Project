@@ -155,7 +155,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Snow;
-            this.ClientSize = new System.Drawing.Size(1277, 702);
+            this.ClientSize = new System.Drawing.Size(1289, 700);
             this.Controls.Add(this.btnSignIn);
             this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.textBox2);
