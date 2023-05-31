@@ -41,7 +41,9 @@ namespace UI_Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Cars car = new Cars(0, txtCarBrand.Text, txtCarModel.Text, txtCarYear.Text, txtCarPrice.Text);
+            Cars car = new Cars(0, txtCarBrand.Text, txtCarModel.Text, txtCarYear.Text, txtCarPrice.Text, true);
+
+            car.IsAvailable = selectedOptions.Contains("Not Available") ? false : true;
 
             CarColor selectedColor = GetSelectedColor();
             car.Color = selectedColor;
@@ -126,6 +128,34 @@ namespace UI_Forms
             dataGridCars.DataSource = null;
             dataGridCars.DataSource = cars;
         }
+
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0 && dataGridCars.Columns[e.ColumnIndex].Name == "IsAvailable")
+            {
+                if (e.Value != null && e.Value is bool)
+                {
+                    bool isAvailable = (bool)e.Value;
+                    string displayText = isAvailable ? "Available" : "Not Available";
+
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+
+                    // Set the text color to white
+                    using (Brush brush = new SolidBrush(Color.White))
+                    {
+                        // Center the text
+                        StringFormat format = new StringFormat();
+                        format.Alignment = StringAlignment.Center;
+                        format.LineAlignment = StringAlignment.Center;
+
+                        e.Graphics.DrawString(displayText, e.CellStyle.Font, brush, e.CellBounds, format);
+                    }
+
+                    e.Handled = true;
+                }
+            }
+        }
+
 
         private void dataGridCars_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {

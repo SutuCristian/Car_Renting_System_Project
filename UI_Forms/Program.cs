@@ -16,7 +16,7 @@ namespace UI_Forms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(new RentForm());
         }
     }
 }

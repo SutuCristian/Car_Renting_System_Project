@@ -49,5 +49,13 @@ namespace UI_Forms
         {
 
         }
+
+        private void btnRentMenu_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            RentForm rentMenu = new RentForm();
+            rentMenu.ShowDialog();
+            this.Show();
+        }
     }
 }

@@ -296,6 +296,7 @@
             this.dataGridCars.Size = new System.Drawing.Size(563, 588);
             this.dataGridCars.TabIndex = 19;
             this.dataGridCars.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridCars_CellContentClick);
+            this.dataGridCars.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             // 
             // groupBox3
             // 

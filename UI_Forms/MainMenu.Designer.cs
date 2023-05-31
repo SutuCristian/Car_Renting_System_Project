@@ -112,6 +112,7 @@
             this.btnRentMenu.TabIndex = 3;
             this.btnRentMenu.Text = "Rent";
             this.btnRentMenu.UseVisualStyleBackColor = false;
+            this.btnRentMenu.Click += new System.EventHandler(this.btnRentMenu_Click);
             // 
             // btnDashboardMenu
             // 

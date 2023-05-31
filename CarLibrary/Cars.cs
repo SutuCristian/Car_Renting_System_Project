@@ -15,6 +15,7 @@ namespace CarLibrary
         private const int PRICE = 4;
         private const int COLOR = 5;
         private const int OPTIONS = 6;
+        private const int IS_AVAILABLE = 7;
 
         [Flags]
         public enum CarOptions
@@ -35,6 +36,7 @@ namespace CarLibrary
         public string Price { get; set; }
         public CarColor Color { get; set; }
         public ArrayList Options { get; set; }
+        public bool IsAvailable { get; set; }
 
         public string OptionsAsString
         {
@@ -63,13 +65,14 @@ namespace CarLibrary
             Price = string.Empty;
         }
 
-        public Cars(int idCar, string brand, string model, string year, string price)
+        public Cars(int idCar, string brand, string model, string year, string price, bool isAvailable)
         {
             this.IdCar = idCar;
             this.Brand = brand;
             this.Model = model;
             this.Year = year;
             this.Price = price;
+            this.IsAvailable = isAvailable;
         }
 
         public Cars(string fileLine)
@@ -84,7 +87,7 @@ namespace CarLibrary
             Color = (CarColor)Enum.Parse(typeof(CarColor), fileData[COLOR], true);
             Options = new ArrayList();
             Options.AddRange(fileData[OPTIONS].Split(SECONDARY_FILE_SEPARATOR));
-
+            IsAvailable = Convert.ToBoolean(fileData[IS_AVAILABLE]);
         }
 
         public string InfoCar()
@@ -101,7 +104,7 @@ namespace CarLibrary
 
         public string ConvertToString_ForFile()
         {
-            string clientObjectForFile = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
+            string carObjectForFile = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
                 MAIN_FILE_SEPARATOR,
                 IdCar.ToString(),
                 (Brand ?? " UNKNOWN "),
@@ -109,9 +112,10 @@ namespace CarLibrary
                 (Year ?? " UNKNOWN "),
                 (Price ?? " UNKNOWN "),
                 Color.ToString(),
-                OptionsAsString);
+                OptionsAsString,
+                IsAvailable.ToString());
 
-            return clientObjectForFile;
+            return carObjectForFile;
         }
 
         public override string ToString()
