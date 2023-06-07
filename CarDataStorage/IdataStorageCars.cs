@@ -21,5 +21,7 @@ namespace CarDataStorage
         bool DeleteCars(int idCar);
 
         bool UpdateCar(Cars carr);
+
+        List<Cars> SearchCars(bool isAvailable);
     }
 }

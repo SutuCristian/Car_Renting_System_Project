@@ -147,5 +147,28 @@ namespace CarDataStorage
 
             return successfullyDeleted;
         }
+
+        public List<Cars> SearchCars(bool isAvailable)
+        {
+            try
+            {
+                List<Cars> cars = GetCars();
+
+                var searchResults = cars.Where(car =>
+                    car.IsAvailable == isAvailable)
+                    .ToList();
+
+                return searchResults;
+            }
+            catch (IOException eIO)
+            {
+                throw new Exception("Error at file opening. Message: " + eIO.Message);
+            }
+            catch (Exception eGen)
+            {
+                throw new Exception("Generic error. Message: " + eGen.Message);
+            }
+        }
+
     }
 }

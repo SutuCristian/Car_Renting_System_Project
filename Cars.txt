@@ -1,0 +1,4 @@
+1;m;m;123;123;Black;Air Conditioner;True
+2;b;b;1234;123;Green;Sunroof;True
+3;c;c;567;678;Black;Air Conditioner;True
+4;n;n;8999;897;White;Air Conditioner Automatic Transmission Cruise Control;True

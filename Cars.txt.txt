@@ -1,3 +1,0 @@
-1;m;m;123;123;Black;Air Conditioner;True
-2;m;m;123;123;Black;Air Conditioner;True
-3;mercedes;b200;2566;256,5;Green;Air Conditioner Sunroof;True
